@@ -1,7 +1,5 @@
 /*jslint browser: true */ /* globals chrome */
 
-// var options = {};
-
 var responseListener = function(details) {
   /**
   Example / typical details:
@@ -33,24 +31,34 @@ var responseListener = function(details) {
     https://developer.chrome.com/extensions/webRequest#event-onHeadersReceived
   */
 
-  // var headers = details.responseHeaders;
-  // headers.push({name: 'Access-Control-Allow-Origin', value: '*'});
-  // headers.push({name: 'Access-Control-Allow-Headers', value: '*'});
-  // headers.push({name: 'Access-Control-Allow-Methods', value: '*'});
-
   if (details.type == 'main_frame') {
     // console.log('details.responseHeaders', details.responseHeaders);
     // for (var i = 0, header; (header = details.responseHeaders[i]); i++) {}
-    details.responseHeaders = details.responseHeaders.filter(function(header) {
-      return header.name != 'Content-Security-Policy';
-    });
+
+    // localStorage values are always strings
+    if (localStorage.csp == 'true') {
+      // console.log('cleaning: %s, %d headers', details.url, details.responseHeaders.length);
+      // var original_n_headers = details.responseHeaders.length;
+      details.responseHeaders = details.responseHeaders.filter(function(header) {
+        return header.name != 'Content-Security-Policy';
+      });
+      // console.log('removed %d headers from %s', original_n_headers - details.responseHeaders.length, details.url);
+    }
+    if (localStorage.origin == 'true') {
+      // hopefully re-setting the header will overwrite the previous one, if any?
+      details.responseHeaders.push({name: 'Access-Control-Allow-Origin', value: '*'});
+    }
+    if (localStorage.methods == 'true') {
+      details.responseHeaders.push({name: 'Access-Control-Allow-Methods', value: '*'});
+      // console.log('added Access-Control-Allow-Methods: * header to %s', details.url);
+    }
   }
 
   return {responseHeaders: details.responseHeaders};
 };
 
 chrome.webRequest.onHeadersReceived.addListener(responseListener, {
-  urls: ['<all_urls>']
+  urls: ['*://*/*']
 }, [
   'blocking',
   'responseHeaders'

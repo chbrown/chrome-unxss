@@ -2,10 +2,10 @@
   "manifest_version": 2,
 
   "name": "UnXSS",
-  "version": "0.0.1",
+  "version": "0.0.2",
 
   "short_name": "UnXSS",
-  "description": "Intercept and modify / delete websites' security headers",
+  "description": "Intercept and modify or delete websites' security headers",
 
   "icons": {
     "128": "icons/128.png",

@@ -3,33 +3,42 @@
   <head>
     <title>UnXSS Options</title>
     <style>
+      body {
+        min-width: 256px;
+      }
       code {
         font-family: monospace;
+      }
+      label {
+        white-space: nowrap;
+      }
+      .control {
+        padding: 4px 0;
       }
     </style>
     <script src="options.js"></script>
   </head>
   <body>
-    <form>
-      <div>
-        <label>
-          <input type="checkbox" name="origin">
-          Add <code>Access-Control-Allow-Origin: *</code> header
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="checkbox" name="methods">
-          Add <code>Access-Control-Allow-Methods: *</code> header
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="checkbox" name="csp">
-          Delete <code>Content-Security-Policy</code> header
-        </label>
-      </div>
-    </form>
+    <div class="control">
+      <label>
+        <input type="checkbox" name="origin">
+        Add <code>Access-Control-Allow-Origin: *</code> header
+      </label>
+    </div>
+
+    <div class="control">
+      <label>
+        <input type="checkbox" name="methods">
+        Add <code>Access-Control-Allow-Methods: *</code> header
+      </label>
+    </div>
+
+    <div class="control">
+      <label>
+        <input type="checkbox" name="csp">
+        Delete <code>Content-Security-Policy</code> header
+      </label>
+    </div>
   </body>
 </html>
 
