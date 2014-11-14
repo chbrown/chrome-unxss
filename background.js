@@ -31,7 +31,9 @@ var responseListener = function(details) {
     https://developer.chrome.com/extensions/webRequest#event-onHeadersReceived
   */
 
-  if (details.type == 'main_frame') {
+  var active = true;
+  // var active = details.type == 'main_frame';
+  if (active) {
     // console.log('details.responseHeaders', details.responseHeaders);
     // for (var i = 0, header; (header = details.responseHeaders[i]); i++) {}
 
@@ -40,7 +42,7 @@ var responseListener = function(details) {
       // console.log('cleaning: %s, %d headers', details.url, details.responseHeaders.length);
       // var original_n_headers = details.responseHeaders.length;
       details.responseHeaders = details.responseHeaders.filter(function(header) {
-        return header.name != 'Content-Security-Policy';
+        return !header.name.match(/content-security-policy/i);
       });
       // console.log('removed %d headers from %s', original_n_headers - details.responseHeaders.length, details.url);
     }
@@ -51,6 +53,13 @@ var responseListener = function(details) {
     if (localStorage.methods == 'true') {
       details.responseHeaders.push({name: 'Access-Control-Allow-Methods', value: '*'});
       // console.log('added Access-Control-Allow-Methods: * header to %s', details.url);
+    }
+    if (localStorage.frame_options == 'true') {
+      // console.log('localStorage.frame_options is true; found %d headers', details.responseHeaders.length);
+      details.responseHeaders = details.responseHeaders.filter(function(header) {
+        return !header.name.match(/x-frame-options/i);
+      });
+      // console.log('found %d headers', details.responseHeaders.length);
     }
   }
 
