@@ -10,3 +10,7 @@ Debugging the `default_popup` page, `options.html`:
     chrome-extension://the_extensions_chrome_id/options.html
 
 Or right-click on the icon in the toolbar and click "Inspect Popup".
+
+## License
+
+Copyright ©2014 Christopher Brown. [MIT Licensed](http://opensource.org/licenses/MIT).
