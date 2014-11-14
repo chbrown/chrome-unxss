@@ -1,10 +1,10 @@
 VERSION := $(shell jq -r '.version' < manifest.json)
-EXT_ZIP := ../insecure-$(VERSION).zip
+EXT_ZIP := chrome-unxss-$(VERSION).zip
 
-all: icons/128.png icons/48.png icons/32.png icons/19.png
+all: $(EXT_ZIP) icons/128.png icons/48.png icons/32.png icons/19.png
 
 $(EXT_ZIP): manifest.json
-	zip -r $@ .
+	zip -r $@ . -x .git/\* -x \*.DS_Store -x \*.zip
 
 icons/128.png: icons/original.png
 	convert icons/original.png -resize 128x128 $@.tmp
