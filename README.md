@@ -7,6 +7,7 @@ For example:
 * If you want to load a website in an iframe, and that website uses `X-Frame-Options: SAMEORIGIN`, Chrome will refuse to show the website. Use the "Delete X-Frame-Options header" option to have Chrome ignore that restriction.
 * If you want to call a foreign AJAX endpoint from a website that has `Content-Security-Policy: ...` set to disallow wildcard script-src, use the "Delete Content-Security-Policy header" to allow running any script on that page.
 * If you want to call out to an API endpoint that doesn't specify itself as `CORS`-friendly, enable the "Add Access-Control-Allow-Origin: * header" and "Add Access-Control-Allow-Methods: * header" options.
+* If you want to test a website for reflected XSS vulnerabilities but the page is blocked by the Chrome XSS Auditor due to `X-XSS-Protection: 1` or no `X-XSS-Protection` header present, you can use "Add X-XSS-Protection: 0 header" option to load the page.
 
 Each restriction can be disabled or enabled individually; labeled checkboxes on the configuration page clearly indicate which restrictions are disabled.
 

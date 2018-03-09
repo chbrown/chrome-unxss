@@ -60,8 +60,9 @@ function responseListener(details) {
   var allow_origin_star = localStorage.origin == 'true';
   var allow_methods_star = localStorage.methods == 'true';
   var strip_frame_options = localStorage.frame_options == 'true';
+  var xss_protection_zero = localStorage.xss_protection == 'true';
 
-  var active = strip_csp || allow_origin_star || allow_methods_star || strip_frame_options;
+  var active = strip_csp || allow_origin_star || allow_methods_star || strip_frame_options || xss_protection_zero;
   // var active = active && (details.type == 'main_frame');
   if (active) {
     log('Removing headers where applicable');
@@ -78,6 +79,10 @@ function responseListener(details) {
     }
     if (strip_frame_options) {
       removeMatchingHeaders(details.responseHeaders, /x-frame-options/i);
+    }
+    if (xss_protection_zero) {
+      removeMatchingHeaders(details.responseHeaders, /x-xss-protection/i);
+      details.responseHeaders.push({name: 'X-XSS-Protection', value: '0'});
     }
   }
 
